@@ -300,26 +300,31 @@ Examples:
   python enhanced_comparison.py file1.txt file2.txt file3.txt file4.txt file5.txt --output comparison.html
   python enhanced_comparison.py --config config.json
   python enhanced_comparison.py --config config.json --output mypage.html
+  python enhanced_comparison.py --directory /path/to/directory
+  python enhanced_comparison.py --directory . --output all_files.html
         """
     )
     
     parser.add_argument('files', nargs='*', help='Text files to compare')
     parser.add_argument('-c', '--config', 
                        help='JSON configuration file (alternative to command-line files)')
+    parser.add_argument('-d', '--directory',
+                       help='Directory containing .txt files to compare (alternative to command-line files)')
     parser.add_argument('-o', '--output', 
                        help='Output HTML filename (default: enhanced_comparison.html)',
                        default='enhanced_comparison.html')
     
     args = parser.parse_args()
     
-    # Check if we have either files or config
-    if not args.files and not args.config:
-        print("Error: You must provide either text files as arguments or a config file.")
+    # Check if we have files, config, or directory
+    input_methods = [bool(args.files), bool(args.config), bool(args.directory)]
+    if sum(input_methods) == 0:
+        print("Error: You must provide either text files as arguments, a config file, or a directory.")
         parser.print_help()
         sys.exit(1)
     
-    if args.files and args.config:
-        print("Error: You cannot provide both files and a config file. Use one or the other.")
+    if sum(input_methods) > 1:
+        print("Error: You can only use one input method at a time (files, config, or directory).")
         sys.exit(1)
     
     files_data = []
@@ -333,6 +338,48 @@ Examples:
             files_data.append({
                 'name': column_config['name'],
                 'filename': column_config['filename'],
+                'content': formatted_content
+            })
+    elif args.directory:
+        # Use directory
+        directory_path = args.directory
+        if not os.path.exists(directory_path):
+            print(f"Error: Directory '{directory_path}' does not exist.")
+            sys.exit(1)
+        
+        if not os.path.isdir(directory_path):
+            print(f"Error: '{directory_path}' is not a directory.")
+            sys.exit(1)
+        
+        # Find all .txt files in the directory
+        txt_files = []
+        try:
+            for file_path in Path(directory_path).glob("*.txt"):
+                if file_path.is_file():
+                    txt_files.append(file_path)
+        except Exception as e:
+            print(f"Error reading directory '{directory_path}': {str(e)}")
+            sys.exit(1)
+        
+        if not txt_files:
+            print(f"Error: No .txt files found in directory '{directory_path}'")
+            sys.exit(1)
+        
+        # Sort files alphabetically for consistent ordering
+        txt_files.sort()
+        
+        print(f"Found {len(txt_files)} .txt files in directory '{directory_path}':")
+        for file_path in txt_files:
+            print(f"  - {file_path.name}")
+        
+        # Process each .txt file
+        for file_path in txt_files:
+            content = read_file_content(str(file_path))
+            formatted_content = format_content_as_paragraphs(content)
+            name = file_path.stem
+            files_data.append({
+                'name': name,
+                'filename': str(file_path),
                 'content': formatted_content
             })
     else:
