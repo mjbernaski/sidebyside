@@ -1,6 +1,9 @@
 # Ignore all text files
 *.txt
 
+# Ignore HTML output files
+*.html
+
 # Python cache files
 __pycache__/
 *.py[cod]
