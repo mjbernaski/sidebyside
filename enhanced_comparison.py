@@ -93,71 +93,34 @@ def read_config_file(config_path: str) -> List[Dict[str, str]]:
         print(f"Error: Invalid configuration format: {str(e)}")
         sys.exit(1)
 
-def generate_navigation_controls(current_page: int, total_pages: int, files_per_page: int = 3) -> str:
-    """Generate HTML for navigation controls."""
-    if total_pages <= 1:
-        return ""
-    
-    start_file = current_page * files_per_page + 1
-    end_file = min((current_page + 1) * files_per_page, total_pages * files_per_page)
-    
-    nav_html = f"""
-        <div class="navigation">
-            <div class="nav-info">
-                <span class="file-counter">Files {start_file}-{end_file} of {total_pages * files_per_page}</span>
-                <span class="page-counter">Page {current_page + 1} of {total_pages}</span>
-            </div>
-            <div class="nav-controls">"""
-    
-    # Previous button
-    if current_page > 0:
-        nav_html += f"""
-                <button class="nav-btn prev-btn" onclick="changePage({current_page - 1})">← Previous</button>"""
-    else:
-        nav_html += f"""
-                <button class="nav-btn prev-btn disabled" disabled>← Previous</button>"""
-    
-    # Page selector dropdown
-    nav_html += f"""
-                <select class="page-selector" onchange="changePage(parseInt(this.value))">"""
-    for i in range(total_pages):
-        selected = "selected" if i == current_page else ""
-        nav_html += f"""
-                    <option value="{i}" {selected}>Page {i + 1}</option>"""
-    nav_html += """
-                </select>"""
-    
-    # Next button
-    if current_page < total_pages - 1:
-        nav_html += f"""
-                <button class="nav-btn next-btn" onclick="changePage({current_page + 1})">Next →</button>"""
-    else:
-        nav_html += f"""
-                <button class="nav-btn next-btn disabled" disabled>Next →</button>"""
-    
-    nav_html += """
-            </div>
+def generate_file_info_header(total_files: int) -> str:
+    """Generate HTML for file information header."""
+    return f"""
+        <div class="file-info-header">
+            <div class="file-counter">Total Files: {total_files}</div>
+            <div class="layout-info">Layout: {total_files} files in {(total_files + 2) // 3} rows of 3 columns each</div>
         </div>"""
-    
-    return nav_html
 
-def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] = None, 
-                 files_per_page: int = 3) -> bool:
-    """Generate HTML comparison of multiple text files with navigation."""
+def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] = None) -> bool:
+    """Generate HTML comparison of multiple text files in row-based layout."""
     
     total_files = len(files_data)
-    total_pages = (total_files + files_per_page - 1) // files_per_page
+    files_per_row = 3
+    total_rows = (total_files + files_per_row - 1) // files_per_row
     
-    # Generate all pages HTML
-    pages_html = []
-    for page in range(total_pages):
-        start_idx = page * files_per_page
-        end_idx = min(start_idx + files_per_page, total_files)
-        page_files = files_data[start_idx:end_idx]
+    # Generate file info header
+    header_html = generate_file_info_header(total_files)
+    
+    # Generate all rows HTML
+    rows_html = []
+    for row in range(total_rows):
+        start_idx = row * files_per_row
+        end_idx = min(start_idx + files_per_row, total_files)
+        row_files = files_data[start_idx:end_idx]
         
-        # Generate columns for this page
+        # Generate columns for this row
         columns_html = []
-        for i, file_data in enumerate(page_files):
+        for i, file_data in enumerate(row_files):
             column_html = f"""
         <div class="column">
             <div class="column-header" style="background: {get_column_color(i)};">
@@ -171,7 +134,7 @@ def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] =
             columns_html.append(column_html)
         
         # Add empty columns if needed to maintain 3-column layout
-        while len(columns_html) < files_per_page:
+        while len(columns_html) < files_per_row:
             columns_html.append("""
         <div class="column empty-column">
             <div class="column-header" style="background: #f0f0f0; color: #666;">
@@ -183,16 +146,12 @@ def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] =
             </div>
         </div>""")
         
-        # Generate navigation for this page
-        navigation_html = generate_navigation_controls(page, total_pages, files_per_page)
-        
-        page_html = f"""
-    <div class="page" id="page-{page}" style="display: {'block' if page == 0 else 'none'};">
-        {navigation_html}
+        row_html = f"""
+    <div class="row">
         <div class="container">{''.join(columns_html)}
         </div>
     </div>"""
-        pages_html.append(page_html)
+        rows_html.append(row_html)
     
     # Generate complete HTML
     html_content = f"""<!DOCTYPE html>
@@ -210,63 +169,29 @@ def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] =
             line-height: 1.6;
         }}
         
-        .navigation {{
+        .file-info-header {{
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 20px;
             margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            text-align: center;
         }}
         
-        .nav-info {{
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }}
-        
-        .file-counter, .page-counter {{
-            font-size: 14px;
-            color: #666;
+        .file-counter, .layout-info {{
+            font-size: 16px;
+            color: #333;
             font-weight: 500;
+            margin: 5px 0;
         }}
         
-        .nav-controls {{
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }}
-        
-        .nav-btn {{
-            background: #3d3d3d;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+        .layout-info {{
+            color: #666;
             font-size: 14px;
-            transition: background-color 0.2s;
         }}
         
-        .nav-btn:hover:not(.disabled) {{
-            background: #555;
-        }}
-        
-        .nav-btn.disabled {{
-            background: #ccc;
-            cursor: not-allowed;
-        }}
-        
-        .page-selector {{
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            background: white;
+        .row {{
+            margin-bottom: 30px;
         }}
         
         .container {{
@@ -300,7 +225,7 @@ def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] =
         
         .column-content {{
             padding: 20px;
-            height: 70vh;
+            height: 60vh;
             overflow-y: auto;
             font-size: 14px;
         }}
@@ -339,42 +264,14 @@ def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] =
             }}
             
             .column-content {{
-                height: 50vh;
-            }}
-            
-            .navigation {{
-                flex-direction: column;
-                align-items: stretch;
-            }}
-            
-            .nav-controls {{
-                justify-content: center;
+                height: 40vh;
             }}
         }}
     </style>
 </head>
 <body>
-    {''.join(pages_html)}
-    
-    <script>
-        function changePage(pageIndex) {{
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.style.display = 'none');
-            
-            // Show the selected page
-            const selectedPage = document.getElementById(`page-${{pageIndex}}`);
-            if (selectedPage) {{
-                selectedPage.style.display = 'block';
-            }}
-            
-            // Update page selector
-            const pageSelector = document.querySelector('.page-selector');
-            if (pageSelector) {{
-                pageSelector.value = pageIndex;
-            }}
-        }}
-    </script>
+    {header_html}
+    {''.join(rows_html)}
 </body>
 </html>"""
 
@@ -464,7 +361,7 @@ Examples:
     if success:
         print(f"Enhanced comparison generated successfully!")
         print(f"Total files: {len(files_data)}")
-        print(f"Total pages: {(len(files_data) + 2) // 3}")
+        print(f"Total rows: {(len(files_data) + 2) // 3}")
         print(f"Open {args.output} in your web browser to view the comparison.")
         
         # Optionally open in browser
