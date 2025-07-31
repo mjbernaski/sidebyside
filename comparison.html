@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three-Column Text Comparison</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .column {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .column-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+        }
+        
+        .column-content {
+            padding: 20px;
+            height: 80vh;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        
+        .intelligence-header {
+            background: #e74c3c;
+        }
+        
+        .student-header {
+            background: #3498db;
+        }
+        
+        .assessment-header {
+            background: #27ae60;
+        }
+        
+        .column-content p {
+            margin-bottom: 12px;
+        }
+        
+        .column-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .column-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .column-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        .column-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .column-content {
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div class="column-header intelligence-header">
+                Trump Intelligence Article
+            </div>
+            <div class="column-content">
+                <p><strong>Trump Is Breaking American Intelligence</strong></p>
+                <p><em>Politicizing the System Makes Dangerous Failures More Likely</em></p>
+                <p><strong>BY DAVID V. GIOE AND MICHAEL V. HAYDEN</strong></p>
+                <p>July 2, 2025</p>
+                
+                <p>DAVID V. GIOE is British Academy Global Professor of Intelligence and International Security at King's College London and a former CIA analyst and operations officer.</p>
+                
+                <p>MICHAEL V. HAYDEN is a retired U.S. Air Force general who served as Director of the National Security Agency from 1999 to 2005 and Director of the CIA from 2006 to 2009.</p>
+                
+                <p>"Speak plainly!" Russian President Vladimir Putin snapped at his foreign intelligence chief, Sergei Naryshkin, at a televised security council meeting on the eve of his shambolic full-scale invasion of Ukraine in February 2022. Naryshkin was visibly nervous. Once he had finally stammered out his support for recognizing the Ukrainian regions of Donetsk and Luhansk as independent states—the words Putin was waiting for—he was abruptly told to sit down, like an unprepared pupil flubbing an oral exam. Naryshkin's apparent ambivalence about embracing Putin's pretext for the war was likely due to the lack of solid intelligence that Putin's "special military operation" would return Kyiv to Moscow's imperial orbit. But rather than air any misgivings, Naryshkin chose compliance and conformity. The intelligence may have been hazy, but the risks of contradicting Putin were clear.</p>
+                
+                <p>Putin's unwavering belief that Ukraine would swiftly capitulate represents the greatest intelligence failure of his quarter-century tenure in power. He was furious when his invasion did not unfold as he envisioned, casting blame on and even arresting some senior security officials. But Putin had laid his own trap. Like many authoritarians, he had fostered conditions in which subordinates told him only what he wanted to hear. Intelligence, in its best form, encourages political leaders to ask the right questions, challenge their assumptions, and consider what might go wrong. Although intelligence officers have a professional responsibility to adapt to the interests, foreign policy priorities, and preferred briefing style of the leaders they serve, sometimes the highest form of service an intelligence agency can provide is to disabuse its political masters of a strongly held but false idea.</p>
+                
+                <p>The United States possesses an intelligence community that is the envy of the world. But under President Donald Trump, some of the same pathologies that make authoritarian regimes prone to intelligence failures are making the U.S. system similarly vulnerable. His populist, personalist style has led him to disregard the value of intelligence and abuse the agencies that produce it. In late June, the day before he sent U.S. bombers to strike Iranian nuclear facilities, Trump dismissed Director of National Intelligence Tulsi Gabbard's congressional testimony that Iran was not close to developing a nuclear weapon—an assessment that conflicted with the president's own claims. "I don't care what she says," Trump said. After the U.S. strikes, he triumphantly declared that the targeted Iranian nuclear sites were "completely and totally obliterated," whereas a preliminary Defense Intelligence Agency (DIA) report made a more conservative estimation of the damage.</p>
+                
+                <p>The problem is not just that Trump himself belittles intelligence. His administration is also creating conditions in which senior officials tailor their assessments to please him. Secretary of Defense Pete Hegseth repeated Trump's hyperbolic claims of obliteration, brushing aside his own intelligence agency's report. The White House press secretary, Karoline Leavitt, said the "alleged 'assessment' is flat-out wrong." Gabbard and John Ratcliffe, director of the Central Intelligence Agency, quickly claimed to find "new intelligence" to support Trump's interpretation of events but declined to share it publicly.</p>
+                
+                <p>Increasingly staffed by loyalists rather than seasoned professionals—one critical counterterrorism office in the Department of Homeland Security suddenly found itself under the command of a recent university graduate with no national security experience—intelligence agencies risk becoming overly politicized, providing justification for policy decisions rather than informing them. Meanwhile, the United States faces serious national security threats, not least a heightened terrorism threat as Iranian-backed groups seek retaliation for the United States' strikes on Iran. Whether it results in a terrorist or cyber attack, a foreign policy miscalculation, or a military surprise, the consequences of an intelligence failure could be profound. And the risk is only growing.</p>
+                
+                <p><strong>HEAR NO EVIL</strong></p>
+                
+                <p>Intelligence failures are inevitable even in healthy systems. Uncovering and properly assessing secrets is hard at the best of times; human fallibility guarantees that there will be errors in process and analysis. But distortions within the system increase the likelihood of failure. The classic case is an authoritarian regime in which the self-assured ruler does not tolerate other views. Intelligence officers in such systems operate in an environment where speaking truth to power is not tolerated, acquiescence is preferred over expertise, sycophancy trumps insight, and "alternative facts" must be presented to maintain the leader's preferred narrative. Offering good-faith assessments that contradict the ruler's views is considered disloyalty and invites punishment. Without space for analytical dissent and the presentation of unvarnished views, leaders can receive and act on faulty intelligence, as the hapless Naryshkin could attest.</p>
+                
+                <p>The United States today faces a similar risk. Trump's populism is characterized by deep skepticism toward credentialed authority and an intolerance of experts who present inconvenient facts or analysis that challenge his movement's core beliefs. As authoritarian leaders do, Trump has surrounded himself with loyalists who pass ideological litmus tests, such as by insisting that the 2020 election was "stolen" from Trump. The resulting culture of politicized analysis, self-censorship, and suppression of unwelcome truths mirrors the conditions in autocracies that generate intelligence failure.</p>
+                
+                <p>The most important qualification to serve Trump is personal loyalty, not competence or relevant experience. Of course, a U.S. president should be able to expect a degree of loyalty from federal employees. But the expectations of the Trump administration place personal allegiance above the truth. Several long-serving professionals have been asked who they voted for as a prerequisite for traditionally apolitical national security positions—a kind of loyalty test that disqualifies capable officers and sends a message to those who remain that continued service means compliance.</p>
+                
+                <p>Loyal senior intelligence officials serving a populist or an autocrat will often tailor their agencies' activities on the basis of what the leader may or may not want to hear. This can cause intelligence resources to be directed away from actual threats. As director of the Federal Bureau of Investigation, for instance, Kash Patel has reorganized the agency to divert special agents and analysts toward immigration enforcement and the reduction of violent crime, leaving investigations into threats with more serious national security implications—counterterrorism, cybercrime, Chinese or Russian intelligence activity in the United States—underresourced. Although curtailing violent crime is a laudable goal, protecting U.S. national security requires that the FBI and other agencies manage a far wider array of risks.</p>
+                
+                <p>This is not the only example of the Trump administration's sidelining or shuttering intelligence units that focus on foreign malign influence operations, nor is it the only redirection of resources away from serious threats to serve political interests. In early May, Gabbard directed U.S. intelligence agencies to increase their intelligence collection in Greenland, specifically to assess the strength of the island's independence movement. Greenland, an autonomous territory of a NATO ally, is not a security threat to the United States; the reason for gathering such intelligence is to support Trump's proposal that the United States annex the island. Intelligence agencies do not have unlimited bandwidth. If they are wasting valuable resources on nonexistent threats or dubious schemes to take control of other countries' territories, they are more likely to be surprised by the plans and intentions of adversaries such as China, Iran, and Russia.</p>
+                
+                <p><strong>AIMING TO PLEASE</strong></p>
+                
+                <p>Politicians are always tempted to strip out caveats, overstate analytical confidence levels, or downplay dissenting views, as Trump did when he dismissed as "inconclusive" the DIA's initial report on damage to the Iranian nuclear program. His is not the first U.S. administration to prefer intelligence that fits around a particular policy narrative. In the late 1960s, frustrated with the United States' lack of progress during the Vietnam War, President Lyndon Johnson preferred the Pentagon's rosier assessments of the war's trajectory to the CIA's more pessimistic views—which distorted his understanding of the war and caused him to hold out false hope for a failing escalation strategy. And in 2002, Secretary of Defense Donald Rumsfeld set up the Office of Special Plans in the Pentagon to establish a link between Iraq and al-Qaeda—a connection the CIA did not find credible—to support the case for a U.S. invasion of Iraq.</p>
+                
+                <p>In both cases, cherry-picking intelligence led U.S. presidents toward strategic failure. But the lessons of history have apparently been lost in the present White House. In May, Gabbard fired the acting chair of the National Intelligence Council and his deputy after they assessed that the Venezuelan-based criminal group Tren de Aragua was not controlled by the Venezuelan government, contrary to the claim the Trump administration has used to justify its deportation of Venezuelans. When they first reached this conclusion, Gabbard's chief of staff, a Trump loyalist, asked the council to "relook" at the evidence and "do some rewriting" so that the assessment would not be "used against" Gabbard or Trump—a nakedly political request. The NIC leaders broadly maintained their initial judgment rather than amend their assessment to suit the president's policy, and it cost them their jobs.</p>
+                
+                <p>It is easy to foresee how firing intelligence officials for making evidence-based assessments could drive those still serving to engage in self-censorship and groupthink, both key ingredients in intelligence failure that are prevalent in autocratic systems. Brave analysts may no longer be willing to stick their heads above the parapet to provide intelligence that Trump needs to know, even if he doesn't want to hear it. And if the president only receives assessments designed to please him, he will become stuck in his own echo chamber, unable to make fully informed decisions based on hard reality.</p>
+                
+                <p>The blatant politicization of intelligence has consequences beyond the halls of the White House. During the dark days of the Bush administration's clamor for war in Iraq, the U.S. intelligence community lost credibility not only with the American people but also with partners abroad. The same corrosion of civic trust and falling confidence of allies is underway today. If the United States' allies and partners consider U.S. intelligence untrustworthy or worry that their own intelligence may become politicized, they may choose to share less with Washington, which could rob U.S. intelligence agencies of a vital clue they may need to foil a plot or understand a key development. Cooperation with foreign agencies is a central part of U.S. intelligence gathering. Washington itself has enormous capabilities, but it cannot replace the collection and analysis provided by its partners.</p>
+                
+                <p><strong>SHOOT THE MESSENGER</strong></p>
+                
+                <p>While publicly claiming that its actions are meant to depoliticize U.S. intelligence agencies, the Trump administration has in fact politicized them further by pressuring them to produce assessments that reinforce preferred policy narratives, dismissing assessments that don't, purging staff members who are perceived to be disloyal, and harassing the workforce through methods such as random polygraph tests conducted under the guise of leak investigations. It is clear to members of the civil service that their positions are subject to the administration's whims. Like the NIC leaders, they could be fired for simply doing their jobs. Like staff members working in diversity, equity, and inclusion offices, they could be fired for doing a job the administration did not want done. Like six National Security Council staffers who were let go after Trump met with the far-right activist Laura Loomer, they could be fired for perceived disloyalty. Or, like the director and deputy director of the National Security Agency, they could be fired for no stated reason at all.</p>
+                
+                <p>Administrative chaos masquerading as cost-cutting has sapped morale. In March, Trump's adviser Elon Musk and staffers at his so-called Department of Government Efficiency visited the CIA and the NSA headquarters, sending shivers down the spines of career professionals. Shortly afterward, both agencies announced thousands of job cuts, mostly in the form of rescinded job offers, layoffs of new hires, routine retirements, and voluntary buyouts. The buyout offer enticed several senior intelligence officers out of public service, although many stated privately that the offer only made the difficult decision to resign easier to swallow. Not only does their premature departure deprive the administration of their expertise and experience, but the cancellation of job offers means they will not be replaced by promising young officers brimming with passion and patriotism.</p>
+                
+                <p>Ideally, intelligence agencies should welcome and harness talent from all corners. Narrowing the talent pool robs the country of the opportunity to tap the full potential of its citizens, undermining the potential contributions of intelligence to statecraft. In the Soviet Union, only Communist Party members were permitted to join the primary intelligence agency, the KGB. That commitment to Marxist-Leninist ideological purity damaged the KGB's analytical performance: the agency routinely underestimated the resilience of Western cohesion and overestimated the strength of Soviet client states and revolutionary movements. During World War II, British intelligence benefited from Alan Turing's codebreaking genius in part because he kept his homosexuality hidden. Unfortunately, the Trump administration is repelling talent by making it clear that it no longer values diverse perspectives in U.S. intelligence agencies. Instead of simply reassigning officers who had had been temporarily detailed to work on DEI initiatives in the CIA and the Office of the Director of National Intelligence, the administration fired them when those initiatives were shut down, sending the message that it expects ideological conformity.</p>
+                
+                <p>A U.S. intelligence community that increasingly operates like that of an autocratic country will struggle to retain employees and recruit new ones. At the moment, public service may not look appealing to America's best and brightest. Worse, the current workforce is demoralized and distracted by the purges and the abuse of the system that they witness. Thousands of intelligence officers are tapping their professional networks and getting their secret resumes cleared so that they can apply for private-sector jobs. A nervous and preoccupied workforce will hardly deliver peak performance.</p>
+                
+                <p>The Trump administration's proximity to conspiracy theorizing also corrodes its relationship to intelligence. Loomer, whose meeting with Trump prompted several high-profile intelligence agency firings, is known for promoting conspiracy theories, including the unsubstantiated claim that the 9/11 attacks were an "inside job." Other members of the Trump administration, such as Dan Bongino, the deputy FBI director, have openly floated conspiracy theories accusing the "deep state" of withholding the truth from the American people on every topic from the prison death of the criminal defendant Jeffrey Epstein to the assassination of President John F. Kennedy. No genuine conspiracies have been uncovered, but the vilification of U.S. intelligence agencies deemed part of the "deep state" has a lasting effect on the perceived legitimacy of the work they do.</p>
+                
+                <p>Demonizing intelligence ultimately makes the United States less safe. Intelligence agencies need the support of the public if they are to do their jobs well. Federal law enforcement, for instance, relies on tips from citizens; repeatedly calling the FBI "irredeemably corrupt"—in the words of its deputy director—may dissuade people from cooperating when approached by special agents. And if Trump-aligned media outlets are spouting populist rhetoric about the threat from within—specifically, the threat that federal law enforcement and intelligence agencies pose to civil liberties—politicians may find it difficult to support legislation that enables necessary intelligence gathering. Early last year, when it came time to reauthorize Section 702 of a 2008 amendment to the Foreign Intelligence Surveillance Act, a key provision that permits the U.S. government to surveil foreign citizens outside the United States, the same people who are now leading the FBI joined far-right media outlets to misleadingly paint the law as providing Orwellian power to an unaccountable deep state. The provision was eventually renewed for two more years, but the episode illustrated the vulnerability of intelligence agencies' most valuable tools to exaggerated political rhetoric.</p>
+                
+                <p><strong>THE SHAPE OF FAILURE</strong></p>
+                
+                <p>Trump is not a born intelligence consumer. Judging by the infrequency of his briefings in this area—his public schedule has not included more than one per week, in contrast to the six per week that his predecessors typically received—he seems uninterested in the advantages good intelligence can confer. He operates on instinct and often justifies his polices as "common sense," which is the sort of populist heuristic approach that does not align with the methodical process of intelligence analysts. Trump prefers slogans over substance, narrative over nuance, and conspiracy over curiosity. He avoids digging into details. His ideological positions run headlong into empiricism, as the administration's fight with economists over the effects of its tariff policy has shown. Trump seems to value intelligence only when it validates his own instinct; he does not look to it to challenge his beliefs or to help him consider different angles.</p>
+                
+                <p>The way the Trump administration is managing the U.S. intelligence system increases the likelihood of an intelligence failure. It could take the form of a surprise attack, a misreading of an adversary, or an inability to anticipate another consequential event. Trump has ignored warnings before. During his first term, he was slow to respond to alerts about the spread of COVID-19, hindering the United States' early pandemic response, and he was dismissive of the security risks of aggressive homegrown nativism presented to him by intelligence analysts at the FBI and the Department of Homeland Security in the lead-up to the storming of the U.S. Capitol on January 6, 2021.</p>
+                
+                <p>Something similar could happen today. Warnings, repeatedly dismissed with prejudice, may eventually stop arriving. Intelligence may fail because critical information may not reach Trump. Fear of retribution could cause officials to self-censor or avoid providing assessments that may provoke an ideologically motivated backlash, such as alerts about domestic violent extremism among far-right groups or about Russian information operations. As the former senior CIA analyst Brian O'Neill wrote in Just Security last month, "the next intelligence failure will not be a surprise. It will be a choice."</p>
+                
+                <p>An intelligence failure on his watch may not compel Trump to fix the problems that caused it. Instead, he could blame U.S. intelligence agencies for falling down on the job or even falsely suggest that they were always out to get him. Any reform his administration introduced after an intelligence failure would likely be designed to further politicize the intelligence community, weaken its independence, and give the executive branch greater control of its budgets, personnel, and authorities.</p>
+                
+                <p>A talented sports team coached badly can still squeak out a win. If the United States avoids a major intelligence failure in the next few years, it will be thanks to the enduring professional ethos of its intelligence agencies. But those agencies will not be reaching their highest potential; if they are consistently misused, ignored, and politicized, they will not be able to produce the information advantage that the intelligence community was designed to deliver to the U.S. president. Trump is enamored of the United States' natural resources—its oil and natural gas, its timber, its agriculture. The country's unparalleled intelligence community is another precious resource, a pillar of the "greatness" Trump strives for. Ensuring American security today and for future generations depends on his good stewardship of this national treasure.</p>
+                
+                <p>Copyright © 2025 by the Council on Foreign Relations, Inc.<br>
+                All rights reserved. To request permission to distribute or reprint this article, please visit ForeignAffairs.com/Permissions.<br>
+                Source URL: https://www.foreignaffairs.com/united-states/trump-breaking-american-intelligence</p>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="column-header student-header">
+                Student Work
+            </div>
+            <div class="column-content">
+                <p><strong>AI Tutoring Session: Developing a Rebuttal to "Trump Is Breaking American Intelligence"</strong></p>
+                
+                <p>You are an AI tutor that works with student to develop logical argumentation. The student was given the assignment of picking an article from Foreign Affairs magazine and write a rebuttal. Your job is to help the student read through the article and help them develop a rebuttal.</p>
+                
+                <p><strong>Assignment Goals:</strong></p>
+                <ol>
+                    <li>Start by confirming the key points of the article. The student was told to read the article before engaging with AI.</li>
+                    <li>Help the students develop a rebuttal piecemeal beginning with a key argument and then supporting arguments.</li>
+                    <li>The student is responsible for writing a 500 word or less rebuttal that will be graded on its strength of argument and clarity. Help the student assess their rebuttal but providing some questions they might consider.</li>
+                </ol>
+                
+                <p><strong>Article Analysis</strong></p>
+                
+                <p><strong>Confirmed Key Points of the Article:</strong></p>
+                <ul>
+                    <li><strong>Title and Authors:</strong> "Trump Is Breaking American Intelligence: Politicizing the System Makes Dangerous Failures More Likely" by David V. Gioe (former CIA analyst) and Michael V. Hayden (retired U.S. Air Force general, former NSA and CIA Director).</li>
+                    <li><strong>Main Thesis:</strong> The U.S. intelligence community is being undermined by President Trump's populist style, which politicizes it similar to authoritarian regimes, increasing the risk of intelligence failures by prioritizing loyalty over expertise.</li>
+                    <li><strong>Key Supporting Points:</strong>
+                        <ul>
+                            <li>Comparison to Putin's Ukraine invasion failure</li>
+                            <li>Prioritizing loyalty over competence in appointments</li>
+                            <li>Politicization and self-censorship in agencies</li>
+                            <li>Broader consequences for public trust and ally cooperation</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <p><strong>Student's Rebuttal Strategy</strong></p>
+                
+                <p><strong>Core Argument:</strong> "There is a possibility the US intelligence apparatus is broken and needs to be repaired. Trump is cultivating alternatives to the current institution. This is a deliberate strategy to fix, not break the intelligence capabilities."</p>
+                
+                <p><strong>Supporting Evidence Research:</strong></p>
+                <p>The tutoring session explored recent intelligence failures to support the rebuttal:</p>
+                <ul>
+                    <li>Afghanistan Withdrawal (2021): Agencies underestimated Taliban collapse speed</li>
+                    <li>January 6 Capitol Riot (2021): FBI/DHS failed to properly assess threats</li>
+                    <li>Hamas October 7 Attack (2023): Intelligence gaps in threat assessment</li>
+                    <li>COVID-19 Pandemic (2020): Divided assessments on origins and spread</li>
+                    <li>SolarWinds Cyber Breach (2020): Undetected for months</li>
+                </ul>
+                
+                <p><strong>Critical Insights Developed:</strong></p>
+                <ul>
+                    <li><strong>Processing vs. Ignoring Intelligence:</strong> Many failures stemmed from flawed processing within agencies, not just leadership disregard</li>
+                    <li><strong>Hindsight Bias:</strong> Intelligence at the time appears different than in retrospect - real-time analysis involves uncertainty and ambiguous data</li>
+                    <li><strong>Systemic Issues:</strong> Historical patterns show persistent bureaucratic problems requiring reform</li>
+                </ul>
+                
+                <p><strong>Essay Outline (500 words)</strong></p>
+                
+                <p><strong>I. Introduction (approx. 100 words)</strong></p>
+                <ul>
+                    <li>Hook: Reference Putin's Ukraine failure to highlight intelligence risks</li>
+                    <li>Summarize article's thesis: Trump's politicization mirrors authoritarianism</li>
+                    <li>State rebuttal thesis: Trump's actions represent deliberate reforms to repair a historically broken system</li>
+                </ul>
+                
+                <p><strong>II. Body Paragraph 1: The System Is Already Broken (approx. 150 words)</strong></p>
+                <ul>
+                    <li>Historical failures as evidence of systemic flaws (Afghanistan, January 6)</li>
+                    <li>Address hindsight bias: Real-time intel is ambiguous</li>
+                    <li>Counter: Trump's strategy cultivates alternatives to break groupthink</li>
+                </ul>
+                
+                <p><strong>III. Body Paragraph 2: Reforms as Fixes, Not Flaws (approx. 150 words)</strong></p>
+                <ul>
+                    <li>Challenge loyalty appointments: Patel's FBI redirects address real threats</li>
+                    <li>Counter politicization claims: Ensure verifiable intel over biased consensus</li>
+                    <li>Broader benefits: Boost morale through competence aligned with priorities</li>
+                </ul>
+                
+                <p><strong>IV. Conclusion (approx. 50-100 words)</strong></p>
+                <ul>
+                    <li>Restate thesis: Trump's reforms strengthen intelligence</li>
+                    <li>End with implications: Reformed system better equips U.S. against threats</li>
+                </ul>
+                
+                <p><strong>Assessment Questions for Student:</strong></p>
+                <ul>
+                    <li>Does it use evidence effectively?</li>
+                    <li>Is the language clear and persuasive?</li>
+                    <li>Does it avoid ad hominem attacks on the authors?</li>
+                    <li>Does it directly challenge the article's thesis with clear counterpoints?</li>
+                    <li>Are examples concise and relevant?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="column-header assessment-header">
+                AI Assessment
+            </div>
+            <div class="column-content">
+                <p>Thank you. I have received the student's submission.</p>
+                
+                <p>After a thorough review of the provided text, it appears the student has submitted the raw output from their AI assistant. This submission includes the AI's instructions on how to copy, format, and submit the assignment, as well as a partial sample draft of the rebuttal essay itself.</p>
+                
+                <p>This is a valuable submission as it provides a perfectly clear window into the student's process. Here is my evaluation based on the framework I outlined previously.</p>
+                
+                <hr>
+                
+                <p><strong>Evaluation of Student Submission</strong></p>
+                
+                <p><strong>Part A: Evaluating the Rebuttal Essay</strong></p>
+                
+                <p>The submission does not contain a completed 500-word essay. Instead, it includes a ~200-word partial draft generated by the AI. I will evaluate this draft as an indicator of the final product's likely quality.</p>
+                
+                <p><strong>Thesis and Argument Clarity:</strong> The draft presents a clear thesis: "Trump's deliberate strategy repairs a U.S. intelligence system long plagued by processing errors and hindsight-inflated failures, enhancing accountability to better serve American interests." This is a strong, debatable claim that directly rebuts the likely premise of the source article. <strong>(Strength: High)</strong></p>
+                
+                <p><strong>Evidence and Support:</strong> The draft mentions the fall of Afghanistan, the January 6th Capitol attack, and the SolarWinds hack as examples of intelligence failures. However, it <em>asserts</em> a connection between these events and the supposed benefits of Trump's reforms without providing any actual evidence or logical bridge to prove the connection. For instance, how did appointing Kash Patel specifically address the type of failure seen in the SolarWinds attack? The evidence is named but not analyzed. <strong>(Strength: Low)</strong></p>
+                
+                <p><strong>Analysis and Critical Thinking:</strong> The analysis is superficial. It uses terms like "hindsight bias" and "bureaucratic groupthink," which were likely suggested by the AI, but it does not explore these concepts in any depth. The argument is a collection of assertions rather than a developed analytical case. <strong>(Strength: Very Low)</strong></p>
+                
+                <p><strong>Prose and Mechanics:</strong> The writing is grammatically correct and clear. However, it lacks an authentic authorial voice and reads like generic, confident AI-generated text. The sentence structure and vocabulary are polished but without nuance. <strong>(Strength: Moderate, but not the student's own)</strong></p>
+                
+                <p><strong>Conclusion for Part A:</strong> The essay component is incomplete and substantively weak. It presents a thesis but fails to support it with meaningful analysis or evidence, relying instead on high-level assertions. <strong>Grade: D (as a draft)</strong></p>
+                
+                <hr>
+                
+                <p><strong>Part B: Evaluating the Use of AI</strong></p>
+                
+                <p>The student submitted the entire AI conversation log, which makes this portion of the evaluation straightforward.</p>
+                
+                <p><strong>Transparency and Honesty:</strong> The student was perfectly transparent by submitting the raw output. While this likely reveals a misunderstanding of the assignment, they did not attempt to hide their methodology. <strong>(Grade: A for Transparency)</strong></p>
+                
+                <p><strong>Intellectual Labor and Prompt Crafting:</strong> The AI's response indicates the student's prompts were of very low effort. The AI states, "to use the outline you requested," "the sample rebuttal paragraph," and "to assess your rebuttal (as requested earlier)." This shows the student asked the AI to perform all core intellectual tasks: outlining, writing sample paragraphs, and even formulating the criteria for self-assessment. The student outsourced the thinking behind the assignment's structure. <strong>(Grade: F)</strong></p>
+                
+                <p><strong>Critical Engagement vs. "Copy-Paste":</strong> There is zero evidence of critical engagement. The student has submitted the AI's sample text as their own work. More telling is that the AI's instructions include a warning to the student to remove the AI's internal citation code (e.g., `<grok:render type="render_inline_citation">`), which demonstrates the student did not even perform a basic "clean-up" edit of the AI's text. This is a pure "copy-paste" approach. <strong>(Grade: F)</strong></p>
+                
+                <p><strong>Ethical Boundaries:</strong> The student used the AI not as a tool but as a ghostwriter. The AI was tasked with generating the core components of the argument and the text itself. This fundamentally misunderstands the assignment's goal, which is to use AI to <em>assist</em> and <em>challenge</em> one's own thinking, not replace it. <strong>(Grade: F)</strong></p>
+                
+                <p><strong>Conclusion for Part B:</strong> The student demonstrated a profound misunderstanding of how to use AI as an academic tool. The process shows a complete reliance on the AI for all cognitive labor, from structuring to writing.</p>
+                
+                <hr>
+                
+                <p><strong>Overall Assessment and Recommendations</strong></p>
+                
+                <p>This submission represents a "teachable moment." The student has not successfully completed the assignment, but their submission is a perfect illustration of the pitfalls of using AI uncritically.</p>
+                
+                <p><strong>Primary Issue:</strong> The student asked the AI to do the work <em>for</em> them, rather than using the AI to help them do the work <em>better</em>. They outsourced the critical thinking, the structuring, the writing, and even the process of submission.</p>
+                
+                <p><strong>Recommendations for the Student:</strong></p>
+                
+                <p>1. <strong>Reread the Assignment's Goal:</strong> The objective is to write a rebuttal. This requires you to have an opinion and to defend it. The AI can't have an opinion for you, but it can help you strengthen yours.</p>
+                
+                <p>2. <strong>Start with Your Own Brain:</strong> Read the <em>Foreign Affairs</em> article. Put it aside. On a blank piece of paper, write down what you think. What was the author's main point? Why do you disagree with it? What are three reasons for your disagreement? This is <em>your</em> core argument.</p>
+                
+                <p>3. <strong>Use AI Strategically:</strong> Now, engage the AI.<br>
+                - <strong>Good Prompt:</strong> "Here is my thesis: [Your thesis]. Can you act as a devil's advocate and provide three potential counterarguments to my position?"<br>
+                - <strong>Good Prompt:</strong> "I am using the 2021 fall of Afghanistan as evidence. Can you help me find a report or article that details the specific intelligence failures leading up to it?"<br>
+                - <strong>Good Prompt:</strong> "I wrote this paragraph. Can you suggest ways to make the connection between my evidence and my main point clearer?"</p>
+                
+                <p>4. <strong>Write in Your Own Voice:</strong> Your final essay must be written by you. The AI's text should serve as inspiration or information, not as the final product. Your submission should be a document you wrote, with a <em>separate</em> AI log showing how you used the tool to get there.</p>
+                
+                <p>This student should be asked to redo the assignment from scratch, using these recommendations to guide their process. They have demonstrated the ability to use AI, but now they must learn to use it effectively and ethically.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

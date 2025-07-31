@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import json
+from pathlib import Path
+
+# Add the sidebyside directory to Python path
+sys.path.insert(0, '/Users/michaelbernaski/Documents/sidebyside')
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: show3 file1.txt file2.txt file3.txt [--output output.html]")
+        print("   or: show3 config.json [--output output.html]")
+        sys.exit(1)
+    
+    # Check if first argument is a JSON file
+    first_arg = sys.argv[1]
+    if first_arg.endswith('.json') and Path(first_arg).exists():
+        # Use html_generator for JSON config
+        from html_generator import main as html_main
+        html_main()
+    else:
+        # Use text_comparison for 3 text files
+        from text_comparison import main as text_main
+        text_main()
+
+if __name__ == "__main__":
+    main()
