@@ -1,0 +1,480 @@
+#!/usr/bin/env python3
+"""
+Enhanced Text Comparison HTML Generator
+
+This script creates a side-by-side HTML comparison view of multiple text files
+in a 3-column format with navigation controls.
+Usage: python enhanced_comparison.py file1.txt file2.txt file3.txt [file4.txt ...] [--output filename.html]
+       python enhanced_comparison.py --config config.json [--output filename.html]
+"""
+
+import sys
+import os
+import html
+import json
+import argparse
+import webbrowser
+from pathlib import Path
+from typing import List, Dict, Optional
+
+def read_file_content(file_path: str) -> str:
+    """Read and return the content of a text file."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        return f"Error: File '{file_path}' not found."
+    except Exception as e:
+        return f"Error reading file '{file_path}': {str(e)}"
+
+def format_content_as_paragraphs(content: str) -> str:
+    """Format text content as HTML paragraphs."""
+    # Escape HTML characters
+    content = html.escape(content)
+    
+    # Split into paragraphs (double newlines or single newlines for short text)
+    paragraphs = content.split('\n\n')
+    if len(paragraphs) == 1:
+        # If no double newlines, split on single newlines
+        paragraphs = content.split('\n')
+    
+    # Filter out empty paragraphs and wrap in <p> tags
+    formatted_paragraphs = []
+    for para in paragraphs:
+        para = para.strip()
+        if para:
+            # Replace single newlines within paragraphs with <br> tags
+            para = para.replace('\n', '<br>')
+            formatted_paragraphs.append(f'<p>{para}</p>')
+    
+    return '\n                '.join(formatted_paragraphs)
+
+def get_column_color(index: int, total_columns: int = 3) -> str:
+    """Generate a color for each column based on its position."""
+    # Default color palette for 3 columns
+    colors = [
+        '#8b6f47',  # Burlywood
+        '#5d6d7e',  # Slate blue gray
+        '#6b8e23',  # Olive drab
+    ]
+    
+    if index < len(colors):
+        return colors[index]
+    else:
+        # Generate a color based on hue rotation with muted tones
+        hue = (index * 360 / total_columns) % 360
+        return f'hsl({hue}, 30%, 40%)'
+
+def read_config_file(config_path: str) -> List[Dict[str, str]]:
+    """Read and parse the JSON configuration file."""
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+            
+        # Validate config structure
+        if not isinstance(config, list):
+            raise ValueError("Configuration must be a list of column dictionaries")
+            
+        for i, column in enumerate(config):
+            if not isinstance(column, dict):
+                raise ValueError(f"Column {i+1} must be a dictionary")
+            if 'name' not in column or 'filename' not in column:
+                raise ValueError(f"Column {i+1} must have 'name' and 'filename' fields")
+                
+        return config
+        
+    except FileNotFoundError:
+        print(f"Error: Configuration file '{config_path}' not found.")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in configuration file: {str(e)}")
+        sys.exit(1)
+    except ValueError as e:
+        print(f"Error: Invalid configuration format: {str(e)}")
+        sys.exit(1)
+
+def generate_navigation_controls(current_page: int, total_pages: int, files_per_page: int = 3) -> str:
+    """Generate HTML for navigation controls."""
+    if total_pages <= 1:
+        return ""
+    
+    start_file = current_page * files_per_page + 1
+    end_file = min((current_page + 1) * files_per_page, total_pages * files_per_page)
+    
+    nav_html = f"""
+        <div class="navigation">
+            <div class="nav-info">
+                <span class="file-counter">Files {start_file}-{end_file} of {total_pages * files_per_page}</span>
+                <span class="page-counter">Page {current_page + 1} of {total_pages}</span>
+            </div>
+            <div class="nav-controls">"""
+    
+    # Previous button
+    if current_page > 0:
+        nav_html += f"""
+                <button class="nav-btn prev-btn" onclick="changePage({current_page - 1})">← Previous</button>"""
+    else:
+        nav_html += f"""
+                <button class="nav-btn prev-btn disabled" disabled>← Previous</button>"""
+    
+    # Page selector dropdown
+    nav_html += f"""
+                <select class="page-selector" onchange="changePage(parseInt(this.value))">"""
+    for i in range(total_pages):
+        selected = "selected" if i == current_page else ""
+        nav_html += f"""
+                    <option value="{i}" {selected}>Page {i + 1}</option>"""
+    nav_html += """
+                </select>"""
+    
+    # Next button
+    if current_page < total_pages - 1:
+        nav_html += f"""
+                <button class="nav-btn next-btn" onclick="changePage({current_page + 1})">Next →</button>"""
+    else:
+        nav_html += f"""
+                <button class="nav-btn next-btn disabled" disabled>Next →</button>"""
+    
+    nav_html += """
+            </div>
+        </div>"""
+    
+    return nav_html
+
+def generate_html(files_data: List[Dict[str, str]], output_path: Optional[str] = None, 
+                 files_per_page: int = 3) -> bool:
+    """Generate HTML comparison of multiple text files with navigation."""
+    
+    total_files = len(files_data)
+    total_pages = (total_files + files_per_page - 1) // files_per_page
+    
+    # Generate all pages HTML
+    pages_html = []
+    for page in range(total_pages):
+        start_idx = page * files_per_page
+        end_idx = min(start_idx + files_per_page, total_files)
+        page_files = files_data[start_idx:end_idx]
+        
+        # Generate columns for this page
+        columns_html = []
+        for i, file_data in enumerate(page_files):
+            column_html = f"""
+        <div class="column">
+            <div class="column-header" style="background: {get_column_color(i)};">
+                {html.escape(file_data['name'])}
+            </div>
+            <div class="column-content">
+                <div class="file-info">File: {html.escape(file_data['filename'])}</div>
+                {file_data['content']}
+            </div>
+        </div>"""
+            columns_html.append(column_html)
+        
+        # Add empty columns if needed to maintain 3-column layout
+        while len(columns_html) < files_per_page:
+            columns_html.append("""
+        <div class="column empty-column">
+            <div class="column-header" style="background: #f0f0f0; color: #666;">
+                No File
+            </div>
+            <div class="column-content">
+                <div class="file-info">No file available</div>
+                <p>No file is available for this position.</p>
+            </div>
+        </div>""")
+        
+        # Generate navigation for this page
+        navigation_html = generate_navigation_controls(page, total_pages, files_per_page)
+        
+        page_html = f"""
+    <div class="page" id="page-{page}" style="display: {'block' if page == 0 else 'none'};">
+        {navigation_html}
+        <div class="container">{''.join(columns_html)}
+        </div>
+    </div>"""
+        pages_html.append(page_html)
+    
+    # Generate complete HTML
+    html_content = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Text Comparison - {total_files} Files</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f6f4f0;
+            line-height: 1.6;
+        }}
+        
+        .navigation {{
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }}
+        
+        .nav-info {{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }}
+        
+        .file-counter, .page-counter {{
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }}
+        
+        .nav-controls {{
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }}
+        
+        .nav-btn {{
+            background: #3d3d3d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }}
+        
+        .nav-btn:hover:not(.disabled) {{
+            background: #555;
+        }}
+        
+        .nav-btn.disabled {{
+            background: #ccc;
+            cursor: not-allowed;
+        }}
+        
+        .page-selector {{
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+        }}
+        
+        .container {{
+            display: flex;
+            gap: 20px;
+            max-width: 95%;
+            margin: 0 auto;
+        }}
+        
+        .column {{
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            min-width: 0;
+        }}
+        
+        .empty-column {{
+            opacity: 0.6;
+        }}
+        
+        .column-header {{
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            word-wrap: break-word;
+        }}
+        
+        .column-content {{
+            padding: 20px;
+            height: 70vh;
+            overflow-y: auto;
+            font-size: 14px;
+        }}
+        
+        .column-content p {{
+            margin-bottom: 12px;
+        }}
+        
+        .column-content::-webkit-scrollbar {{
+            width: 8px;
+        }}
+        
+        .column-content::-webkit-scrollbar-track {{
+            background: #ebe7e0;
+        }}
+        
+        .column-content::-webkit-scrollbar-thumb {{
+            background: #888;
+            border-radius: 4px;
+        }}
+        
+        .column-content::-webkit-scrollbar-thumb:hover {{
+            background: #555;
+        }}
+        
+        .file-info {{
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+            font-style: italic;
+        }}
+        
+        @media (max-width: 1024px) {{
+            .container {{
+                flex-direction: column;
+            }}
+            
+            .column-content {{
+                height: 50vh;
+            }}
+            
+            .navigation {{
+                flex-direction: column;
+                align-items: stretch;
+            }}
+            
+            .nav-controls {{
+                justify-content: center;
+            }}
+        }}
+    </style>
+</head>
+<body>
+    {''.join(pages_html)}
+    
+    <script>
+        function changePage(pageIndex) {{
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.style.display = 'none');
+            
+            // Show the selected page
+            const selectedPage = document.getElementById(`page-${{pageIndex}}`);
+            if (selectedPage) {{
+                selectedPage.style.display = 'block';
+            }}
+            
+            // Update page selector
+            const pageSelector = document.querySelector('.page-selector');
+            if (pageSelector) {{
+                pageSelector.value = pageIndex;
+            }}
+        }}
+    </script>
+</body>
+</html>"""
+
+    # Determine output path
+    if output_path is None:
+        output_path = "enhanced_comparison.html"
+    
+    # Write HTML file
+    try:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        print(f"Enhanced HTML comparison created: {output_path}")
+        return True
+    except Exception as e:
+        print(f"Error writing HTML file: {str(e)}")
+        return False
+
+def main():
+    """Main function to handle command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Create a side-by-side HTML comparison view of multiple text files in a 3-column format with navigation.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python enhanced_comparison.py file1.txt file2.txt file3.txt
+  python enhanced_comparison.py file1.txt file2.txt file3.txt file4.txt file5.txt --output comparison.html
+  python enhanced_comparison.py --config config.json
+  python enhanced_comparison.py --config config.json --output mypage.html
+        """
+    )
+    
+    parser.add_argument('files', nargs='*', help='Text files to compare')
+    parser.add_argument('-c', '--config', 
+                       help='JSON configuration file (alternative to command-line files)')
+    parser.add_argument('-o', '--output', 
+                       help='Output HTML filename (default: enhanced_comparison.html)',
+                       default='enhanced_comparison.html')
+    
+    args = parser.parse_args()
+    
+    # Check if we have either files or config
+    if not args.files and not args.config:
+        print("Error: You must provide either text files as arguments or a config file.")
+        parser.print_help()
+        sys.exit(1)
+    
+    if args.files and args.config:
+        print("Error: You cannot provide both files and a config file. Use one or the other.")
+        sys.exit(1)
+    
+    files_data = []
+    
+    if args.config:
+        # Use config file
+        config = read_config_file(args.config)
+        for column_config in config:
+            content = read_file_content(column_config['filename'])
+            formatted_content = format_content_as_paragraphs(content)
+            files_data.append({
+                'name': column_config['name'],
+                'filename': column_config['filename'],
+                'content': formatted_content
+            })
+    else:
+        # Use command-line files
+        for file_path in args.files:
+            if not os.path.exists(file_path):
+                print(f"Error: File '{file_path}' does not exist.")
+                sys.exit(1)
+            
+            content = read_file_content(file_path)
+            formatted_content = format_content_as_paragraphs(content)
+            name = Path(file_path).stem
+            files_data.append({
+                'name': name,
+                'filename': file_path,
+                'content': formatted_content
+            })
+    
+    if not files_data:
+        print("Error: No valid files to process.")
+        sys.exit(1)
+    
+    # Generate HTML comparison
+    success = generate_html(files_data, args.output)
+    
+    if success:
+        print(f"Enhanced comparison generated successfully!")
+        print(f"Total files: {len(files_data)}")
+        print(f"Total pages: {(len(files_data) + 2) // 3}")
+        print(f"Open {args.output} in your web browser to view the comparison.")
+        
+        # Optionally open in browser
+        try:
+            webbrowser.open(f'file://{os.path.abspath(args.output)}')
+        except:
+            pass
+    else:
+        print("Failed to generate comparison.")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main() 
